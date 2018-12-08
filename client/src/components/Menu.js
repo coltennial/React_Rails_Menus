@@ -15,19 +15,45 @@ class Menu extends Component {
     })
   }
 
-  addItem(name, price) {
-    
+  addItem = (id, name, price) => {
+    axios.post(`/api/menus/${id}/items`, { name, price })
+    .then(res => {
+        let {items} = this.state;
+        this.setState({
+            items: [...items, res.data]
+        });
+    })
+}
+
+  deleteItem = (menu_id, id) => {
+    axios.delete(`/api/menus/${menu_id}/items/${id}`)
+    .then(res => {
+      const {items} = this.state;
+      this.setState({
+        items: items.filter(item => 
+          item.id !== id
+        )
+      })
+    })
   }
+
 
   render() {
     // let {items} = this.state;
     let {menuName, id} = this.props;
+    let {items} = this.state;
     return (
       <div className="menu">
-      <ItemForm id={id} add={this.addItem}/>
-        <h1>{menuName}</h1>
-        
-      </div>
+                    <h1>{menuName}</h1>
+                    <hr />
+                    <ItemForm id={id} add={this.addItem}/>
+                    {items.map(item => 
+                        <div key={item.id}>
+                            <p>{item.name}{item.price}</p>
+                            <button onClick={() => this.deleteItem(id, item.id)}>Delete</button>
+                        </div>
+                    )}
+                </div>
     )
   }
 }

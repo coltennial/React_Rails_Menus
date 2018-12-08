@@ -7,7 +7,7 @@ class Api::ItemsController < ApplicationController
   end
 
   def create 
-    item = @menu.items.new(items_params)
+    item = @menu.items.new(item_params)
     if item.save
       render json: item
     else
@@ -23,7 +23,7 @@ class Api::ItemsController < ApplicationController
   private 
 
     def item_params 
-      param.require(:item).permit(:name, :price)
+      params.require(:item).permit(:name, :price)
     end
 
     def set_item 

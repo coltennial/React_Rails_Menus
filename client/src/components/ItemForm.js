@@ -13,10 +13,10 @@ class ItemForm extends React.Component {
   }
 
   handleSubmit = (e) => {
-    let {add} = this.props;
+    let {add, id} = this.props;
     let {name, price} = this.state;
     e.preventDefault();
-    add(name, price)
+    add(id, name, price)
     this.setState({
       name: "",
       price: 0.00
@@ -36,7 +36,6 @@ class ItemForm extends React.Component {
           onChange={this.handleChange}
         />
         <input 
-          type="number"
           name="price"
           placeholder="Price:"
           value={price}
